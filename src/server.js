@@ -4,6 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 const app = express();
 
 // JSON parsing için - ROUTE'LARDAN ÖNCE OLMALI!
@@ -12,21 +13,6 @@ app.use(express.json());
 //jwt için secret key tanımlama (normalde env içinde durur)
 const SECRET_KEY = process.env.SECRET_KEY || "supersecretkey";
 
-//Fake veritabanı - Test için hazır kullanıcılar
-const users = [
-    {
-        username: "admin",
-        password: "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi" // password: "password"
-    },
-    {
-        username: "testuser",
-        password: "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi" // password: "password"
-    },
-    {
-        username: "demo",
-        password: "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi" // password: "password"
-    }
-];
 
 //signup
 app.post("/signup", async (req, res) => {
@@ -102,6 +88,20 @@ function authenticateToken(req, res, next) {
 app.get("/profile", authenticateToken, (req, res) => {
     res.json({ message: "Profil bilgileri", user: req.user});
 });
+
+// MongoDB bağlantısı
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/learn-express");
+        console.log("MongoDB bağlantısı başarılı");
+    } catch (error) {
+        console.error("MongoDB bağlantısı hatası:", error);
+        process.exit(1);
+    }
+};
+
+// MongoDB'ye bağlan
+connectDB();
 
 
 //Routes dahil edildi

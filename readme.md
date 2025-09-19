@@ -20,3 +20,9 @@ models/User.js içinde mongoose ile json şeklinde yazılabilen mongo database �
 sonra server.js içinde jwt oluşturarak ile signup-login ve yalnızca o jwt ye özel açılan profil bilgileri için bir protected route tanımladım. 
 
 ayrıca bcrypt lib ekledim ki kullanııc kayıt olurken belirlediği şifre hashlenerek bir değişkende saklansın. 
+
+userRoutes.js içinde CRUD işlemleri için api endpointleri oluşturdum.
+
+server.js içine mongoDB bağlantıısnı ekledim.
+
+mongoDB compass kurulumu yapıp env'deki mongodb uri ile bağladım ve veritabanını görsel olarak inceleyebiliyorum. 
